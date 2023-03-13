@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
 
 class TodaysMatches extends StatelessWidget {
-  TodaysMatches({super.key});
-
-  final pb = PocketBase('https://api.emreaka.tech/');
+  const TodaysMatches({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,25 +11,21 @@ class TodaysMatches extends StatelessWidget {
         title: const Text("Today's Matches"),
         backgroundColor: Colors.black87,
       ),
-      body: Matches(pb: pb),
+      body: const Matches(),
     );
   }
 }
 
 class Matches extends StatefulWidget {
-  final PocketBase pb;
-
-  const Matches({super.key, required this.pb});
+  const Matches({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MatchesState(pb);
+  State<StatefulWidget> createState() => _MatchesState();
 }
 
 class _MatchesState extends State {
-  final PocketBase pb;
+  final pb = PocketBase('https://api.emreaka.tech/');
   late Future<dynamic> result;
-
-  _MatchesState(this.pb);
 
   @override
   void initState() {
@@ -84,7 +78,7 @@ class _MatchesState extends State {
                   );
                 });
           } else {
-            return Text("Data is fetching...");
+            return const Text("Data is fetching...");
           }
         },
       );
