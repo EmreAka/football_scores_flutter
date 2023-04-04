@@ -67,9 +67,22 @@ class _LiveScoreState extends State<LiveScore> {
                           itemCount: snapshot.data![index]['matches'].length,
                           itemBuilder: (context, matchIndex) {
                             return ListTile(
-                              title: Text(snapshot.data![index]['matches'][matchIndex]['match_hometeam_name'] + " - " + snapshot.data![index]['matches'][matchIndex]['match_awayteam_name']),
-                              subtitle: Text("Status: " +snapshot.data![index]['matches'][matchIndex]['match_status'] + "'", style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
-                              trailing: IconButton(onPressed: () {},icon: const Icon(Icons.notification_add)),
+                              title: Text(snapshot.data![index]['matches']
+                                      [matchIndex]['match_hometeam_name'] +
+                                  " - " +
+                                  snapshot.data![index]['matches'][matchIndex]
+                                      ['match_awayteam_name']),
+                              subtitle: Text(
+                                  "Status: " +
+                                      snapshot.data![index]['matches']
+                                          [matchIndex]['match_status'] +
+                                      "'",
+                                  style: const TextStyle(
+                                      color: Colors.green,
+                                      fontWeight: FontWeight.bold)),
+                              trailing: IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.notification_add)),
                             );
                           },
                           shrinkWrap: true,
@@ -79,7 +92,7 @@ class _LiveScoreState extends State<LiveScore> {
                     );
                   });
             } else {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
           })),
     );
