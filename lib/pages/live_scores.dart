@@ -53,8 +53,7 @@ class _LiveScoreState extends State<LiveScore> {
                         ListTile(
                           tileColor: Colors.black87,
                           title: Text(
-                            snapshot.data![index]['country']
-                                ['countryNameEnglish'],
+                            "${snapshot.data![index]['country']['countryNameEnglish']} ${snapshot.data![index]['leagueName']}",
                             style: const TextStyle(color: Colors.white),
                           ),
                           leading: Image.network(
@@ -67,22 +66,23 @@ class _LiveScoreState extends State<LiveScore> {
                           itemCount: snapshot.data![index]['matches'].length,
                           itemBuilder: (context, matchIndex) {
                             return ListTile(
-                              title: Text(snapshot.data![index]['matches']
-                                      [matchIndex]['match_hometeam_name'] +
-                                  " - " +
-                                  snapshot.data![index]['matches'][matchIndex]
-                                      ['match_awayteam_name']),
-                              subtitle: Text(
-                                  "Status: " +
-                                      snapshot.data![index]['matches']
-                                          [matchIndex]['match_status'] +
-                                      "'",
-                                  style: const TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold)),
-                              trailing: IconButton(
-                                  onPressed: () {},
-                                  icon: const Icon(Icons.notification_add)),
+                              title: Row(
+                                children: [
+                                  Text(
+                                      "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_name']} - ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_name']}"),
+                                ],
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Text(
+                                    "Status ${snapshot.data![index]['matches'][matchIndex]['match_status']}'",
+                                  ),
+                                  const SizedBox(width: 10),
+                                ],
+                              ),
+                              trailing: Text(
+                                "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_score']} vs ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_score']}",
+                              ),
                             );
                           },
                           shrinkWrap: true,
@@ -92,7 +92,7 @@ class _LiveScoreState extends State<LiveScore> {
                     );
                   });
             } else {
-              return const Center(child: CircularProgressIndicator());
+              return const LinearProgressIndicator();
             }
           })),
     );

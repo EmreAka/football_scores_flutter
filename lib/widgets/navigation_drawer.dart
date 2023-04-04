@@ -79,7 +79,7 @@ class NavigationDrawer extends StatelessWidget {
             title: const Text("Suspended and Injured Players"),
             onTap: () {},
           ),
-          const Divider(color: Colors.black),
+          const Divider(color: Colors.black12),
           ListTile(
             leading: const Icon(Icons.login),
             title: const Text("Login"),

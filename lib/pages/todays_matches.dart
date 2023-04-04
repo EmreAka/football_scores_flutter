@@ -76,11 +76,11 @@ class _MatchesState extends State {
                                     snapshot.data[index]['matches'][indexx]
                                         ['away_team'],
                               ),
-                              trailing: IconButton(icon: Icon(Icons.notification_add),onPressed: (){}),
+                              trailing: IconButton(icon: const Icon(Icons.notification_add),onPressed: (){}),
                               subtitle: snapshot.data[index]['matches'][indexx]
                               ['match_live'] != "1" ? Text("Starts at: ${snapshot.data[index]['matches'][indexx]
                               ['match_time']}") : Text("Live: ${snapshot.data[index]['matches'][indexx]
-                              ['match_status']}", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),),
+                              ['match_status']}", style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),),
                             ),
                           );
                         },
@@ -91,7 +91,7 @@ class _MatchesState extends State {
                   );
                 });
           } else {
-            return Text("Data is fetching...");
+            return LinearProgressIndicator();
           }
         },
       );
