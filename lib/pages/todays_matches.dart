@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:football_scores/widgets/navigation_drawer.dart' as NavigationDrawer;
 
 class TodaysMatches extends StatelessWidget {
   TodaysMatches({super.key});
 
-  final pb = PocketBase('https://api.emreaka.tech/');
+  final pb = PocketBase('https://gofootball.emreaka.tech/');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const NavigationDrawer.NavigationDrawer(),
       appBar: AppBar(
         title: const Text("Today's Matches"),
         backgroundColor: Colors.black87,
+        
       ),
       body: Matches(pb: pb),
     );
+    
   }
 }
 
@@ -72,8 +76,11 @@ class _MatchesState extends State {
                                     snapshot.data[index]['matches'][indexx]
                                         ['away_team'],
                               ),
-                              trailing: Text(snapshot.data[index]['matches']
-                                  [indexx]['match_time']),
+                              trailing: IconButton(icon: Icon(Icons.notification_add),onPressed: (){}),
+                              subtitle: snapshot.data[index]['matches'][indexx]
+                              ['match_live'] != "1" ? Text("Starts at: ${snapshot.data[index]['matches'][indexx]
+                              ['match_time']}") : Text("Live: ${snapshot.data[index]['matches'][indexx]
+                              ['match_status']}", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),),
                             ),
                           );
                         },
