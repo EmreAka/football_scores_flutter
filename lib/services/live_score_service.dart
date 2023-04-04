@@ -7,6 +7,7 @@ class LiveScoreService {
     final response = await http.get(url);
     if (response.statusCode == 200) {
       print((convert.jsonDecode(response.body)as List<dynamic>).length);
+      print((convert.jsonDecode(response.body)as List<dynamic>)[0]['matches'].length);
       return convert.jsonDecode(response.body);
     }else{
       throw Exception("Can't fetch");
