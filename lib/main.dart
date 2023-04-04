@@ -11,8 +11,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(appBarTheme: const AppBarTheme(backgroundColor: Colors.black87)),
       home: MyHomePage(),
     );
   }
@@ -26,7 +27,6 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Dashboard"),
-        backgroundColor: Colors.black87,
       ),
       drawer: const NavigationDrawer.NavigationDrawer(),
     );

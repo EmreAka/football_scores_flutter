@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:football_scores/pages/live_scores.dart';
 
 import '../main.dart';
 import '../pages/todays_matches.dart';
@@ -64,7 +65,9 @@ class NavigationDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.scoreboard),
             title: const Text("Live Scores"),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => LiveScores()));
+            },
           ),
           ListTile(
             leading: const Icon(Icons.score),
