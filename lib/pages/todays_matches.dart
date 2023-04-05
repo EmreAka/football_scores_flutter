@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:football_scores/models/selected_route.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:football_scores/widgets/navigation_drawer.dart' as NavigationDrawer;
 
@@ -10,7 +11,7 @@ class TodaysMatches extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const NavigationDrawer.NavigationDrawer(),
+      drawer: NavigationDrawer.NavigationDrawer(selectedRoute: SelectedRoute.todaysMatches,),
       appBar: AppBar(
         title: const Text("Today's Matches"),
         backgroundColor: Colors.black87,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:football_scores/models/selected_route.dart';
 import 'package:football_scores/widgets/navigation_drawer.dart' as NavigationDrawer;
 
 void main() {
@@ -28,7 +29,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Dashboard"),
       ),
-      drawer: const NavigationDrawer.NavigationDrawer(),
+      drawer: NavigationDrawer.NavigationDrawer(selectedRoute: SelectedRoute.home,),
     );
   }
 }

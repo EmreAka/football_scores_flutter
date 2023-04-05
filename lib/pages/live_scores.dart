@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:football_scores/models/selected_route.dart';
 import 'package:football_scores/services/live_score_service.dart';
 import 'package:football_scores/widgets/navigation_drawer.dart'
     as NavigationDrawer;
@@ -11,8 +12,8 @@ class LiveScores extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Live Scores"),
         ),
-        drawer: const NavigationDrawer.NavigationDrawer(),
-        body: LiveScore(),
+        drawer: NavigationDrawer.NavigationDrawer(selectedRoute: SelectedRoute.liveScores,),
+        body: const LiveScore(),
       );
 }
 
