@@ -54,7 +54,7 @@ class _LiveScoreState extends State<LiveScore> {
                         ListTile(
                           tileColor: Colors.black87,
                           title: Text(
-                            "${snapshot.data![index]['country']['countryNameEnglish']} ${snapshot.data![index]['leagueName']}",
+                            "${snapshot.data![index]['country']?['countryNameEnglish']} ${snapshot.data![index]['leagueName']}",
                             style: const TextStyle(color: Colors.white),
                           ),
                           leading: Image.network(
