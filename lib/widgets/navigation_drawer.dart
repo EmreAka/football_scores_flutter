@@ -25,18 +25,25 @@ class NavigationDrawer extends StatelessWidget {
   buildHeader(BuildContext context) => Container(
         color: Colors.black87,
         padding: EdgeInsets.only(
-          top: 24 + MediaQuery.of(context).padding.top,
-          bottom: 24
-        ),
+            top: 24 + MediaQuery.of(context).padding.top, bottom: 24),
         child: Column(
           children: const [
             CircleAvatar(
               radius: 52,
-              backgroundImage: NetworkImage("https://avatars.githubusercontent.com/u/77541730?v=4"),
+              backgroundImage: NetworkImage(
+                  "https://avatars.githubusercontent.com/u/77541730?v=4"),
             ),
-            SizedBox(height: 12,),
-            Text("Emre Aka", style: TextStyle(fontSize: 28, color: Colors.white),),
-            Text("GitHub.com/emreaka", style: TextStyle(fontSize: 16, color: Colors.white),),
+            SizedBox(
+              height: 12,
+            ),
+            Text(
+              "Emre Aka",
+              style: TextStyle(fontSize: 28, color: Colors.white),
+            ),
+            Text(
+              "GitHub.com/emreaka",
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
           ],
         ),
       );
@@ -44,49 +51,18 @@ class NavigationDrawer extends StatelessWidget {
   buildMenuItems(BuildContext context) => Wrap(
         runSpacing: 10,
         children: [
-          ListTile(
-            leading: const Icon(Icons.home_outlined),
-            title: const Text("Home"),
-            onTap: () => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const MyHomePage())),
-            selected: selectedRoute == SelectedRoute.home ? true : false,
-          ),
-          ListTile(
-            leading: const Icon(Icons.sports_soccer),
-            title: const Text("Today's Matches"),
-            onTap: () {
-              // Navigator.pop(context);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TodaysMatches()));
-            },
-            selected: selectedRoute == SelectedRoute.todaysMatches ? true : false,
-          ),
-          ListTile(
-            leading: const Icon(Icons.forum),
-            title: const Text("Community"),
-            onTap: () {},
-            selected: selectedRoute == SelectedRoute.community ? true : false,
-          ),
-          ListTile(
-            leading: const Icon(Icons.scoreboard),
-            title: const Text("Live Scores"),
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => LiveScores()));
-            },
-            selected: selectedRoute == SelectedRoute.liveScores ? true : false,
-          ),
-          ListTile(
-            leading: const Icon(Icons.score),
-            title: const Text("Standings"),
-            onTap: () {},
-            selected: selectedRoute == SelectedRoute.standings ? true : false,
-          ),
-          ListTile(
-            leading: const Icon(Icons.personal_injury),
-            title: const Text("Suspended and Injured Players"),
-            onTap: () {},
-            selected: selectedRoute == SelectedRoute.suspendedAndInjuredPlayers ? true : false,
-          ),
+          buildListTile(context, const Icon(Icons.home), "Home",
+              SelectedRoute.home, const MyHomePage()),
+          buildListTile(context, const Icon(Icons.sports_soccer),
+              "Today's Matches", SelectedRoute.todaysMatches, TodaysMatches()),
+          buildListTile(context, const Icon(Icons.forum), "Community",
+              SelectedRoute.community, TodaysMatches()),
+          buildListTile(context, const Icon(Icons.scoreboard), "Live Scores",
+              SelectedRoute.liveScores, const LiveScores()),
+          buildListTile(context, const Icon(Icons.score), "Standings",
+              SelectedRoute.standings, const LiveScores()),
+          buildListTile(context, const Icon(Icons.personal_injury), "Suspended and Injured Players",
+              SelectedRoute.suspendedAndInjuredPlayers, const LiveScores()),
           const Divider(color: Colors.black12),
           ListTile(
             leading: const Icon(Icons.login),
@@ -102,4 +78,20 @@ class NavigationDrawer extends StatelessWidget {
           ),
         ],
       );
+
+  ListTile buildListTile(BuildContext context, Icon icon, String title,
+      SelectedRoute route, Widget page) {
+    return ListTile(
+      leading: icon,
+      title: Text(title),
+      onTap: () {
+        // Navigator.pop(context);
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => page));
+      },
+      selected: selectedRoute == route ? true : false,
+      selectedTileColor: const Color.fromARGB(255, 207, 233, 255),
+      selectedColor: const Color.fromARGB(255, 14, 110, 236),
+    );
+  }
 }

@@ -54,11 +54,11 @@ class _LiveScoreState extends State<LiveScore> {
                         ListTile(
                           tileColor: Colors.black87,
                           title: Text(
-                            "${snapshot.data![index]['country']?['countryNameEnglish']} ${snapshot.data![index]['leagueName']}",
+                            "${snapshot.data![index]['country']?['countryNameEnglish'] ?? "Unknown"} - ${snapshot.data![index]['leagueName']}",
                             style: const TextStyle(color: Colors.white),
                           ),
                           leading: Image.network(
-                            snapshot.data![index]['country']['countryLogoUrl'],
+                            snapshot.data![index]['country']?['countryLogoUrl'] ?? "https://apiv3.apifootball.com/badges/logo_country/2_intl.png",
                             height: 30,
                             width: 40,
                           ),
