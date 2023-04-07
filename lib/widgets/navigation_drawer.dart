@@ -49,7 +49,6 @@ class NavigationDrawer extends StatelessWidget {
       );
 
   buildMenuItems(BuildContext context) => Wrap(
-        runSpacing: 10,
         children: [
           buildListTile(context, const Icon(Icons.home), "Home",
               SelectedRoute.home, const MyHomePage()),
