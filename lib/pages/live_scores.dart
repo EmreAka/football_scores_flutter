@@ -12,7 +12,9 @@ class LiveScores extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Live Scores"),
         ),
-        drawer: NavigationDrawer.NavigationDrawer(selectedRoute: SelectedRoute.liveScores,),
+        drawer: NavigationDrawer.NavigationDrawer(
+          selectedRoute: SelectedRoute.liveScores,
+        ),
         body: const LiveScore(),
       );
 }
@@ -58,7 +60,9 @@ class _LiveScoreState extends State<LiveScore> {
                             style: const TextStyle(color: Colors.white),
                           ),
                           leading: Image.network(
-                            snapshot.data![index]['country']?['countryLogoUrl'] ?? "https://apiv3.apifootball.com/badges/logo_country/2_intl.png",
+                            snapshot.data![index]['country']
+                                    ?['countryLogoUrl'] ??
+                                "https://apiv3.apifootball.com/badges/logo_country/2_intl.png",
                             height: 30,
                             width: 40,
                           ),
@@ -66,25 +70,7 @@ class _LiveScoreState extends State<LiveScore> {
                         ListView.builder(
                           itemCount: snapshot.data![index]['matches'].length,
                           itemBuilder: (context, matchIndex) {
-                            return ListTile(
-                              title: Row(
-                                children: [
-                                  Text(
-                                      "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_name']} - ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_name']}"),
-                                ],
-                              ),
-                              subtitle: Row(
-                                children: [
-                                  Text(
-                                    "Status ${snapshot.data![index]['matches'][matchIndex]['match_status']}'",
-                                  ),
-                                  const SizedBox(width: 10),
-                                ],
-                              ),
-                              trailing: Text(
-                                "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_score']} vs ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_score']}",
-                              ),
-                            );
+                            return matchResult(snapshot, index, matchIndex);
                           },
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -98,4 +84,71 @@ class _LiveScoreState extends State<LiveScore> {
           })),
     );
   }
+
+  Widget matchResult(
+      AsyncSnapshot<List<dynamic>> snapshot, int index, int matchIndex) {
+    var color = matchIndex % 2 == 0 ? Color.fromARGB(255, 235, 235, 235) : Colors.white;
+    return Container(
+      color: color,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 8.0, left: 8.0),
+        child: SizedBox(
+          height: 50,
+          child: Row(children: [
+            SizedBox(
+              width: 60,
+              child: Text(
+                "${snapshot.data![index]['matches'][matchIndex]['match_status']}'",
+              ),
+            ),
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 30),
+                child: Text(
+                  "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_name']}",
+                  textAlign: TextAlign.end,
+                ),
+              ),
+            ),
+            Text(
+                "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_score']} - ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_score']}",
+                style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),),
+            Expanded(
+              flex: 3,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30),
+                child: Text(
+                    "${snapshot.data![index]['matches'][matchIndex]['match_awayteam_name']}"),
+              ),
+            ),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.notification_add))
+          ]),
+        ),
+      ),
+    );
+  }
+
+  /* ListTile matchResult(
+      AsyncSnapshot<List<dynamic>> snapshot, int index, int matchIndex) {
+    return ListTile(
+      title: Row(
+        children: [
+          Text(
+              "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_name']} - ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_name']}"),
+        ],
+      ),
+      subtitle: Row(
+        children: [
+          Text(
+            "Status ${snapshot.data![index]['matches'][matchIndex]['match_status']}'",
+          ),
+          const SizedBox(width: 10),
+        ],
+      ),
+      trailing: Text(
+        "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_score']} vs ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_score']}",
+      ),
+    );
+  } */
 }
