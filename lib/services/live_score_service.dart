@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class LiveScoreService {
   Future<List<dynamic>> getLiveScores() async {
-    final url = Uri.parse("http://localhost:5141/api/v1/events/live");
+    final url = Uri.parse("http://api.emreaka.tech/api/v1/events/live");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       print((convert.jsonDecode(response.body)as List<dynamic>).length);
@@ -15,7 +15,7 @@ class LiveScoreService {
   }
 
   Future<List<dynamic>> getTodaysEvents() async {
-    final url = Uri.parse("http://localhost:5141/api/v1/events/today");
+    final url = Uri.parse("http://api.emreaka.tech/api/v1/events/today");
     final response = await http.get(url);
     if (response.statusCode == 200) {
       print((convert.jsonDecode(response.body)as List<dynamic>).length);
