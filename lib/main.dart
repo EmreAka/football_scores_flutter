@@ -29,6 +29,28 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Colors.black87,
       ),
       drawer: const NavigationDrawer(),
+      body: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Column(
+          children: const [
+            Text(
+              "News",
+              style: TextStyle(fontSize: 30),
+            ),
+            Text(
+              "News",
+              style: TextStyle(fontSize: 30),
+            ),
+            Text(
+              "News",
+              style: TextStyle(fontSize: 30),
+            ),
+            Text(
+              "News",
+              style: TextStyle(fontSize: 30),
+            ),
+          ],
+        ),
+      ]),
     );
   }
 }
@@ -52,18 +74,25 @@ class NavigationDrawer extends StatelessWidget {
   buildHeader(BuildContext context) => Container(
         color: Colors.black87,
         padding: EdgeInsets.only(
-          top: 24 + MediaQuery.of(context).padding.top,
-          bottom: 24
-        ),
+            top: 24 + MediaQuery.of(context).padding.top, bottom: 24),
         child: Column(
           children: const [
             CircleAvatar(
               radius: 52,
-              backgroundImage: NetworkImage("https://avatars.githubusercontent.com/u/77541730?v=4"),
+              backgroundImage: NetworkImage(
+                  "https://avatars.githubusercontent.com/u/77541730?v=4"),
             ),
-            SizedBox(height: 12,),
-            Text("Emre Aka", style: TextStyle(fontSize: 28, color: Colors.white),),
-            Text("Aka.Emre@hotmail.com", style: TextStyle(fontSize: 16, color: Colors.white),),
+            SizedBox(
+              height: 12,
+            ),
+            Text(
+              "Emre Aka",
+              style: TextStyle(fontSize: 28, color: Colors.white),
+            ),
+            Text(
+              "Aka.Emre@hotmail.com",
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
           ],
         ),
       );
@@ -82,8 +111,8 @@ class NavigationDrawer extends StatelessWidget {
             title: const Text("Today's Matches"),
             onTap: () {
               Navigator.pop(context);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TodaysMatches()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => TodaysMatches()));
             },
           ),
           ListTile(

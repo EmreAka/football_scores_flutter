@@ -24,7 +24,7 @@ class Matches extends StatefulWidget {
 }
 
 class _MatchesState extends State {
-  final pb = PocketBase('https://api.emreaka.tech/');
+  final pb = PocketBase('https://gofootball.emreaka.tech/');
   late Future<dynamic> result;
 
   @override
@@ -55,19 +55,21 @@ class _MatchesState extends State {
                       ListView.builder(
                         itemCount: snapshot.data[index]['matches'].length,
                         itemBuilder: (BuildContext context, int indexx) {
-                          return Container(
-                            color:
-                                indexx % 2 == 0 ? Colors.white : Colors.black12,
-                            child: ListTile(
-                              title: Text(
-                                snapshot.data[index]['matches'][indexx]
-                                        ['home_team'] +
-                                    " - " +
-                                    snapshot.data[index]['matches'][indexx]
-                                        ['away_team'],
-                              ),
-                              trailing: Text(snapshot.data[index]['matches']
-                                  [indexx]['match_time']),
+                          return ListTile(
+                            leading: Text(
+                              snapshot.data[index]['matches'][indexx]
+                                      ['home_team'] +
+                                  " - " +
+                                  snapshot.data[index]['matches'][indexx]
+                                      ['away_team'],
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children:  [
+                                Text(snapshot.data[index]['matches']
+                                                [indexx]['match_time']),
+                                IconButton(onPressed: () {}, icon: const Icon(Icons.notification_add))
+                              ],
                             ),
                           );
                         },
