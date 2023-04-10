@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:football_scores/models/selected_route.dart';
-import 'package:pocketbase/pocketbase.dart';
 import 'package:football_scores/widgets/navigation_drawer.dart' as NavigationDrawer;
 
 import '../services/live_score_service.dart';
@@ -14,10 +13,8 @@ class TodaysMatches extends StatelessWidget {
       drawer: NavigationDrawer.NavigationDrawer(selectedRoute: SelectedRoute.todaysMatches),
       appBar: AppBar(
         title: const Text("Today's Matches"),
-        backgroundColor: Colors.black87,
-        
       ),
-      body: Matches(),
+      body: const Matches(),
     );
     
   }
@@ -42,52 +39,44 @@ class _MatchesState extends State {
   }
 
   @override
-  Widget build(BuildContext context) => RefreshIndicator(
-      onRefresh: () async {
-        var result = await LiveScoreService().getLiveScores();
-        setState(() {
-          todayEvents = Future<List<dynamic>>.value(result);
-        });
-      },
-      child: FutureBuilder(
-          future: todayEvents,
-          builder: ((context, snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        ListTile(
-                          tileColor: Colors.black87,
-                          title: Text(
-                            "${snapshot.data![index]['country']?['countryNameEnglish'] ?? "Unknown"} - ${snapshot.data![index]['leagueName']}",
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          leading: Image.network(
-                            snapshot.data![index]['country']
-                                    ?['countryLogoUrl'] ??
-                                "https://apiv3.apifootball.com/badges/logo_country/2_intl.png",
-                            height: 30,
-                            width: 40,
-                          ),
-                        ),
-                        ListView.builder(
-                          itemCount: snapshot.data![index]['matches'].length,
-                          itemBuilder: (context, matchIndex) {
-                            return matchResult(snapshot, index, matchIndex);
-                          },
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                        )
-                      ],
-                    );
-                  });
-            } else {
-              return const LinearProgressIndicator();
-            }
-          })),
-    );
+  Widget build(BuildContext context) => FutureBuilder(
+      future: todayEvents,
+      builder: ((context, snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: [
+                    ListTile(
+                      tileColor: Colors.black87,
+                      title: Text(
+                        "${snapshot.data![index]['country']?['countryNameEnglish'] ?? "Unknown"} - ${snapshot.data![index]['leagueName']}",
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                      leading: Image.network(
+                        snapshot.data![index]['country']
+                                ?['countryLogoUrl'] ??
+                            "https://apiv3.apifootball.com/badges/logo_country/2_intl.png",
+                        height: 30,
+                        width: 40,
+                      ),
+                    ),
+                    ListView.builder(
+                      itemCount: snapshot.data![index]['matches'].length,
+                      itemBuilder: (context, matchIndex) {
+                        return matchResult(snapshot, index, matchIndex);
+                      },
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                    )
+                  ],
+                );
+              });
+        } else {
+          return const LinearProgressIndicator();
+        }
+      }));
   }
 
   Widget matchResult(
@@ -104,7 +93,7 @@ class _MatchesState extends State {
             SizedBox(
               width: 60,
               child: Text(
-                "${snapshot.data![index]['matches'][matchIndex]['match_status']}'",
+                "${snapshot.data![index]['matches'][matchIndex]['match_time']}'",
                 style: TextStyle(color: isLive ? Colors.green : Colors.black),
               ),
             ),

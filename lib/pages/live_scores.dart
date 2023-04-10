@@ -65,6 +65,7 @@ class _LiveScoreState extends State<LiveScore> {
                                 "https://apiv3.apifootball.com/badges/logo_country/2_intl.png",
                             height: 30,
                             width: 40,
+                            errorBuilder: (context, error, stackTrace) => const Text("😒"),
                           ),
                         ),
                         ListView.builder(
@@ -128,27 +129,4 @@ class _LiveScoreState extends State<LiveScore> {
       ),
     );
   }
-
-  /* ListTile matchResult(
-      AsyncSnapshot<List<dynamic>> snapshot, int index, int matchIndex) {
-    return ListTile(
-      title: Row(
-        children: [
-          Text(
-              "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_name']} - ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_name']}"),
-        ],
-      ),
-      subtitle: Row(
-        children: [
-          Text(
-            "Status ${snapshot.data![index]['matches'][matchIndex]['match_status']}'",
-          ),
-          const SizedBox(width: 10),
-        ],
-      ),
-      trailing: Text(
-        "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_score']} vs ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_score']}",
-      ),
-    );
-  } */
 }
