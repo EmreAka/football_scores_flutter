@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:football_scores/models/selected_route.dart';
-import 'package:football_scores/widgets/navigation_drawer.dart' as NavigationDrawer;
+import 'package:football_scores/widgets/navigation_drawer.dart'
+    as NavigationDrawer;
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(appBarTheme: const AppBarTheme(backgroundColor: Colors.black)),
+      theme: ThemeData(
+        useMaterial3: true,
+      ),
       home: const MyHomePage(),
     );
   }
@@ -29,7 +32,11 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Dashboard"),
       ),
-      drawer: NavigationDrawer.NavigationDrawer(selectedRoute: SelectedRoute.home,),
+      drawer: NavigationDrawer.NavigationDrawer(
+        selectedRoute: SelectedRoute.home,
+      ),
+      floatingActionButton:
+          FloatingActionButton(onPressed: () {}, child: const Text("Test")),
     );
   }
 }
