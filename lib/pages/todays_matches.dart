@@ -60,6 +60,7 @@ class _MatchesState extends State {
                             "https://apiv3.apifootball.com/badges/logo_country/2_intl.png",
                         height: 30,
                         width: 40,
+                        errorBuilder: (context, error, stackTrace) => const Text("😒"),
                       ),
                     ),
                     ListView.builder(

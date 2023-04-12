@@ -89,8 +89,6 @@ class NavigationDrawer extends StatelessWidget {
             .push(MaterialPageRoute(builder: (context) => page));
       },
       selected: selectedRoute == route ? true : false,
-      selectedTileColor: const Color.fromARGB(255, 207, 233, 255),
-      selectedColor: const Color.fromARGB(255, 14, 110, 236),
     );
   }
 }
