@@ -32,11 +32,7 @@ class _LiveScoresState extends State<LiveScores> {
                       ),
                       title: TextField(
                         controller: _controller,
-                        onChanged: (value) async => {
-                          await Future.delayed(const Duration(seconds: 1)),
-                          setState(() {})
-                        },
-                        onEditingComplete: () => {print("yazim bitti")},
+                        onEditingComplete: () => {setState(() {})},
                         decoration: const InputDecoration(
                           hintText: 'Country or league name',
                           hintStyle: TextStyle(
