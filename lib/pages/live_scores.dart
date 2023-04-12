@@ -17,48 +17,53 @@ class _LiveScoresState extends State<LiveScores> {
   final _controller = TextEditingController();
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: customSearchBar, actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
+        appBar: AppBar(
+          title: customSearchBar,
+          actions: [
+            IconButton(
+              onPressed: () {
                 setState(() {
-                  if (customIcon.icon == Icons.search) {
-                    customIcon = const Icon(Icons.cancel);
-                    customSearchBar = ListTile(
-                      leading: const Icon(
-                        Icons.search,
-                        color: Colors.white,
-                        size: 28,
-                      ),
-                      title: TextField(
-                        controller: _controller,
-                        onEditingComplete: () => {setState(() {})},
-                        decoration: const InputDecoration(
-                          hintText: 'Country or league name',
-                          hintStyle: TextStyle(
+                  setState(() {
+                    if (customIcon.icon == Icons.search) {
+                      customIcon = const Icon(Icons.cancel);
+                      customSearchBar = ListTile(
+                        leading: const Icon(
+                          Icons.search,
+                          color: Colors.white,
+                          size: 28,
+                        ),
+                        title: TextField(
+                          controller: _controller,
+                          onEditingComplete: () => {setState(() {})},
+                          decoration: const InputDecoration(
+                            hintText: 'Country or league name',
+                            hintStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                            border: InputBorder.none,
+                          ),
+                          style: const TextStyle(
                             color: Colors.white,
                           ),
-                          border: InputBorder.none,
                         ),
-                        style: const TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    );
-                  } else {
-                    customIcon = const Icon(Icons.search);
-                    customSearchBar = const Text('Live Scores');
-                    _controller.clear();
-                  }
+                      );
+                    } else {
+                      customIcon = const Icon(Icons.search);
+                      customSearchBar = const Text('Live Scores');
+                      _controller.clear();
+                    }
+                  });
                 });
-              });
-            },
-            icon: customIcon,
-          ),
-        ]),
-        drawer: NavigationDrawer.NavigationDrawer(
-          selectedRoute: SelectedRoute.liveScores,
+              },
+              icon: customIcon,
+            ),
+          ],
         ),
+        drawer: isMobileSize(context)
+            ? NavigationDrawer.NavigationDrawer(
+                selectedRoute: SelectedRoute.liveScores,
+              )
+            : null,
         body: LiveScore(searchText: _controller.text),
       );
 
@@ -105,6 +110,21 @@ class _LiveScoreState extends State<LiveScore> {
 
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, x) =>
+          x.maxWidth < 1000 ? mobileContent() : desktopContent(),
+    );
+  }
+
+  Widget desktopContent() => Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+        NavigationDrawer.NavigationDrawer(
+            selectedRoute: SelectedRoute.liveScores),
+        Expanded(child: mobileContent()),
+      ]);
+
+  Widget mobileContent() {
     return RefreshIndicator(
       onRefresh: () async {
         var result = await LiveScoreService().getLiveScores();
@@ -206,4 +226,12 @@ class _LiveScoreState extends State<LiveScore> {
 
 bool isDarkMode(BuildContext context) {
   return Theme.of(context).brightness == Brightness.dark;
+}
+
+bool isMobileSize(BuildContext context) {
+  final screenWidth = MediaQuery.of(context).size.width;
+  if (screenWidth < 1000) {
+    return true;
+  }
+  return false;
 }
