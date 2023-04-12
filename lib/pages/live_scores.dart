@@ -88,7 +88,8 @@ class _LiveScoreState extends State<LiveScore> {
 
   Widget matchResult(
       AsyncSnapshot<List<dynamic>> snapshot, int index, int matchIndex) {
-    var color = matchIndex % 2 != 0 ? Color.fromARGB(255, 235, 235, 235) : Colors.white;
+    var color = matchIndex % 2 != 0 ? Colors.grey[900] : null;
+    var isThemeDark = isDarkMode(context);
     return Container(
       color: color,
       child: Padding(
@@ -129,4 +130,8 @@ class _LiveScoreState extends State<LiveScore> {
       ),
     );
   }
+}
+
+bool isDarkMode(BuildContext context) {
+  return Theme.of(context).brightness == Brightness.dark;
 }

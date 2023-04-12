@@ -81,7 +81,7 @@ class _MatchesState extends State {
 
   Widget matchResult(
       AsyncSnapshot<List<dynamic>> snapshot, int index, int matchIndex) {
-    var color = matchIndex % 2 != 0 ? const Color.fromARGB(255, 235, 235, 235) : Colors.white;
+    var color = matchIndex % 2 != 0 ? Colors.grey[900] : null;
     var isLive = snapshot.data![index]['matches'][matchIndex]['match_live'] == "1" ? true : false;
     return Container(
       color: color,
@@ -94,7 +94,7 @@ class _MatchesState extends State {
               width: 60,
               child: Text(
                 "${snapshot.data![index]['matches'][matchIndex]['match_time']}'",
-                style: TextStyle(color: isLive ? Colors.green : Colors.black),
+                style: TextStyle(color: isLive ? Colors.green : Colors.white),
               ),
             ),
             Expanded(
