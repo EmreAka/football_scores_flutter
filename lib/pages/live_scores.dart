@@ -4,23 +4,78 @@ import 'package:football_scores/services/live_score_service.dart';
 import 'package:football_scores/widgets/navigation_drawer.dart'
     as NavigationDrawer;
 
-class LiveScores extends StatelessWidget {
+class LiveScores extends StatefulWidget {
   const LiveScores({super.key});
 
   @override
+  State<LiveScores> createState() => _LiveScoresState();
+}
+
+class _LiveScoresState extends State<LiveScores> {
+  Icon customIcon = const Icon(Icons.search);
+  Widget customSearchBar = const Text('Live Scores');
+  final _controller = TextEditingController();
+  @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text("Live Scores"),
-        ),
+        appBar: AppBar(title: customSearchBar, actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                setState(() {
+                  if (customIcon.icon == Icons.search) {
+                    customIcon = const Icon(Icons.cancel);
+                    customSearchBar = ListTile(
+                      leading: const Icon(
+                        Icons.search,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                      title: TextField(
+                        controller: _controller,
+                        onChanged: (value) async => {
+                          await Future.delayed(const Duration(seconds: 1)),
+                          setState(() {})
+                        },
+                        onEditingComplete: () => {print("yazim bitti")},
+                        decoration: const InputDecoration(
+                          hintText: 'Country or league name',
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  } else {
+                    customIcon = const Icon(Icons.search);
+                    customSearchBar = const Text('Live Scores');
+                    _controller.clear();
+                  }
+                });
+              });
+            },
+            icon: customIcon,
+          ),
+        ]),
         drawer: NavigationDrawer.NavigationDrawer(
           selectedRoute: SelectedRoute.liveScores,
         ),
-        body: const LiveScore(),
+        body: LiveScore(searchText: _controller.text),
       );
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 }
 
 class LiveScore extends StatefulWidget {
-  const LiveScore({super.key});
+  String searchText;
+  LiveScore({super.key, required this.searchText});
 
   @override
   State<LiveScore> createState() => _LiveScoreState();
@@ -30,9 +85,26 @@ class _LiveScoreState extends State<LiveScore> {
   late Future<List<dynamic>> liveScores;
 
   @override
+  void didUpdateWidget(covariant LiveScore oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      if (widget.searchText.isNotEmpty) {
+        liveScores =
+            LiveScoreService().getLiveScoresBySearch(widget.searchText);
+      } else {
+        liveScores = LiveScoreService().getLiveScores();
+      }
+    });
+  }
+
+  @override
   void initState() {
     super.initState();
-    liveScores = LiveScoreService().getLiveScores();
+    if (widget.searchText.isEmpty) {
+      liveScores = LiveScoreService().getLiveScoresBySearch(widget.searchText);
+    } else {
+      liveScores = LiveScoreService().getLiveScores();
+    }
   }
 
   @override
@@ -65,7 +137,8 @@ class _LiveScoreState extends State<LiveScore> {
                                 "https://apiv3.apifootball.com/badges/logo_country/2_intl.png",
                             height: 30,
                             width: 40,
-                            errorBuilder: (context, error, stackTrace) => const Text("😒"),
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Text("😒"),
                           ),
                         ),
                         ListView.builder(
@@ -114,8 +187,10 @@ class _LiveScoreState extends State<LiveScore> {
               ),
             ),
             Text(
-                "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_score']} - ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_score']}",
-                style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),),
+              "${snapshot.data![index]['matches'][matchIndex]['match_hometeam_score']} - ${snapshot.data![index]['matches'][matchIndex]['match_awayteam_score']}",
+              style: const TextStyle(
+                  color: Colors.red, fontWeight: FontWeight.bold),
+            ),
             Expanded(
               flex: 3,
               child: Padding(
@@ -124,7 +199,8 @@ class _LiveScoreState extends State<LiveScore> {
                     "${snapshot.data![index]['matches'][matchIndex]['match_awayteam_name']}"),
               ),
             ),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.notification_add))
+            IconButton(
+                onPressed: () {}, icon: const Icon(Icons.notification_add))
           ]),
         ),
       ),
