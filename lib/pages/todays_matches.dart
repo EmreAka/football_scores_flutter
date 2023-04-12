@@ -4,33 +4,96 @@ import 'package:football_scores/widgets/navigation_drawer.dart' as NavigationDra
 
 import '../services/live_score_service.dart';
 
-class TodaysMatches extends StatelessWidget {
+class TodaysMatches extends StatefulWidget {
   const TodaysMatches({super.key});
 
+  @override
+  State<TodaysMatches> createState() => _TodaysMatchesState();
+}
+
+class _TodaysMatchesState extends State<TodaysMatches> {
+  Icon customIcon = const Icon(Icons.search);
+  Widget customSearchBar = const Text("Today's Matches");
+  final _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: NavigationDrawer.NavigationDrawer(selectedRoute: SelectedRoute.todaysMatches),
       appBar: AppBar(
-        title: const Text("Today's Matches"),
+        title: customSearchBar,
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                setState(() {
+                  if (customIcon.icon == Icons.search) {
+                    customIcon = const Icon(Icons.cancel);
+                    customSearchBar = ListTile(
+                      leading: const Icon(
+                        Icons.search,
+                        color: Colors.white,
+                        size: 28,
+                      ),
+                      title: TextField(
+                        controller: _controller,
+                        onEditingComplete: () => {setState(() {})},
+                        decoration: const InputDecoration(
+                          hintText: 'Country or league name',
+                          hintStyle: TextStyle(
+                            color: Colors.white,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  } else {
+                    customIcon = const Icon(Icons.search);
+                    customSearchBar = const Text("Today's Matches");
+                    _controller.clear();
+                  }
+                });
+              });
+            },
+            icon: customIcon,
+          ),
+        ]
       ),
-      body: const Matches(),
+      body: Matches(searchText: _controller.text),
     );
     
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 }
 
 class Matches extends StatefulWidget {
-  const Matches({super.key});
+  String searchText;
+  Matches({super.key, required this.searchText});
 
   @override
   State<StatefulWidget> createState() => _MatchesState();
 }
 
-class _MatchesState extends State {
+class _MatchesState extends State<Matches> {
   late Future<List<dynamic>> todayEvents;
 
   _MatchesState();
+
+  @override
+  void didUpdateWidget(covariant Matches oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.searchText.isNotEmpty) {
+      todayEvents = LiveScoreService().getTodaysEventsBySearch(widget.searchText);
+    }else{
+      todayEvents = LiveScoreService().getTodaysEvents();
+    }
+  }
 
   @override
   void initState() {
